@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Replace pixel colour - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+</head>
+<body>
+  <h1>Move mouse over image, click to replace colour with red</h1>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAAAyCAYAAAAtKFX9AAACo0lEQVR4nO2awW3DMAxFg6yWJTKEDx0i1yyQcyfoKFkoPRlIFRCU9ElZdl+Ad3CD1p8UX8sYPZ3P5xcA9HHaOgDAnkEgAAEEAhBAIAABBAIQQCAAAQQCEEAgAAEEAhBoFujr++cPj+ft9XjePq5X1pd1XXtf9T7lq7e+1rzWq/fAsvuc1Y9orvfL63q/hM1D7/kgEAIh0EiByuBRInkHEnUfr0FefbV98g6s9ucsy/JalmVYn7P6EUV0PxAIgRBoTwKtQa3G1n5/1AFbjes9YLW+lV6By0Gxcqxf9+6v9jmqH1HizCY0AiEQAo0UyCqgtaHen9bWQbVE2mt9R8uh4uUYnWcFgSat72g5VA4jUPSKY60arXkskfZa39FyROGtcN5qGw0CTVrf0XJEsXuBygLK69aBV1c4q5G9B+zV5x3Q+r5an9rnrIHdKoeXyyL74QICNdaHQAj0TrdAXmO9gqIGPqtx0fW15lH7HD2orb9IrHNSV/ZeodQ5QyAEQqAZBYoatN4CsgdJra9XZLXPWQL1rnBRK7sqVLRICIRACDRSoPJfKkqiG6E2Krq+9f3aPOXg1B7cLH2OypG9wtXeN1okBGqsD4EQ6J1qgcpGWo0ddbC1K81W9XkPE6x8o3NYA3y0HFkiIRACIdBIgbyCRgvkibRVfd6BWSsmObbN0To3CPTPB4YcgwWyCvA+XGcLZIm0VX3WQw11ZSHHNjkQCIHIMYNAs6xw1odJVrixOWoHeO/9QCAEQqCZBLLIFsZrpPUwoWxUdn3WfaNyqPV7OWrzZOeYrR8IhEAINKNA2Suc1yjvYULZuOz6ag8samBb6+99bDs6x+z9QCAEQqARAgHAJwgEIIBAAAIIBCCAQAACCAQggEAAAggEIIBAAAIIBCDwC05RPoUNCVl6AAAAAElFTkSuQmCC" alt="canvas">
+  <canvas class="zoom"></canvas>
+  <div></div>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    var swab = document.querySelector('div');
+    var context = canvas.getContext('2d');
+    canvas.height = sourceimage.height;
+    canvas.width = sourceimage.width;
+    context.drawImage(sourceimage, 0, 0);
+    sourceimage.style.display = 'none';
+    function getpixelcolour(ev) {
+      var x = ev.layerX;
+      var y = ev.layerY;
+      var pixeldata = context.getImageData(x, y, 1, 1);
+      return pixeldata.data;
+    }
+    function readcolour(ev) {
+      var col = getpixelcolour(ev);
+      swab.style.background = 'rgba(' +
+        col[0] + ',' + col[1] + ',' + col[2] + ',' + col[3] +
+      ')';
+    }
+    function replacecolour(ev) {
+      var col = getpixelcolour(ev);
+      var pixels = context.getImageData(
+        0, 0, canvas.width, canvas.height
+      );
+      var all = pixels.data.length;
+      var data = pixels.data;
+      for (var i = 0; i < all;i += 4) {
+        if (data[i] === col[0] && data[i+1] === col[1] &&
+            data[i+2] === col[2] && data[i+3] === col[3]) {
+          data[i] = 255;
+          data[i+1] = 0;
+          data[i+2] = 0;
+          data[i+3] = 255;
+        }
+      }
+      context.putImageData(pixels, 0, 0);
+    }
+    canvas.addEventListener('mousemove', readcolour, false);
+    canvas.addEventListener('click', replacecolour, false);
+  },false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 

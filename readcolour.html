@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Read colour under the mouse - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+</head>
+<body>
+  <h1>Move mouse over image</h1>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABWUlEQVRoge2YuxGEMAwFGaqhAUIKoQJCYhqgCJr1RVygQVhPlo01o0CB59Air99xn2EcxxSlr+HrAbxXCAyBIdB1QQLn6UjzdKR9OdO+nOna1nRt6399v64dxopP+7mymFskUDoQHUw6hDVfyuEKEfoqEN0YutFa/FKBdxULtBLSmo8KuROnSeKjQFQEKqZXvqbvUWBJpCX9vfI1SayaQMrxxpc8Wl4TyA1Y+lbwzocTiH4tQRPSK79YIDcIXUuvy/G1CanNN0sgV7nrrBNSm488AlQJpD+5pGK9JhD+EOGEWCfEKz8rkEuYdIBcf+985AAigZHA9nxxAikIPUGu3wtfLZDeGP3DMdfvnS8WqD3BXH+vfE6cOoG0tBvkEtKaj5Y6gdyJSDco7W/NtxQXCQSuhwVyYG1CuP5WfHSNzPOaQG4t3Zh2XZtfen9xAqNCYAjsvUJgCPy2fhYD28suIXWoAAAAAElFTkSuQmCC" alt="canvas">
+  <canvas class="zoom"></canvas>
+  <div></div>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    var swab = document.querySelector('div');
+    var context = canvas.getContext('2d');
+    canvas.height = sourceimage.height;
+    canvas.width = sourceimage.width;
+    context.drawImage(sourceimage, 0, 0);
+    sourceimage.style.display = 'none';
+    function readcolour(ev) {
+      var x = ev.layerX;
+      var y = ev.layerY;
+      var pixeldata = context.getImageData(x, y, 1, 1);
+      var col = pixeldata.data;
+      swab.style.background = 'rgba(' +
+        col[0] + ',' + col[1] + ',' + col[2] + ',' + col[3] +
+      ')';
+    }
+    canvas.addEventListener('mousemove', readcolour, false);
+  },false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 

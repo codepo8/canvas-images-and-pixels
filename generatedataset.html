@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generate dataset from image boundaries - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+</head>
+<body>
+  <img src="img/greenaz.png" alt="atoz">
+  <button>Create dataset ➜</button>
+  <canvas></canvas>
+  <textarea></textarea>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var out = document.querySelector('textarea');
+    var canvas = document.querySelector('canvas');
+    var context = canvas.getContext('2d');
+    var height = sourceimage.height;
+    var width = sourceimage.width;
+    canvas.height = height;
+    canvas.width = width;
+    context.drawImage(sourceimage, 0, 0);
+    canvas.style.display = 'none';
+    function createdataset(ev) {
+      ev.preventDefault();
+      var green = [62, 255, 67, 255];
+      var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+      var dataset = {};
+      dataset.height = height;
+      var pixels = context.getImageData(0,5,width,1).data;
+      var all = pixels.length;
+      var letterwidth = 0;
+      var letter = 0;
+      for (var i = 0; i < all; i += 4) {
+        if (pixels[i] === green[0] &&
+            pixels[i+1] === green[1] &&
+            pixels[i+2] === green[2] &&
+            pixels[i+3] === green[3] ) {
+          if (letterwidth > 0) {
+            dataset[letters[letter]] = [(i / 4 - letterwidth), letterwidth];
+            letter++;
+          }
+          letterwidth = 0;
+        } else {
+          letterwidth++;
+        }
+     }
+     out.value = JSON.stringify(dataset);
+    }
+    var button = document.querySelector('button');
+    button.addEventListener('click', createdataset, false);
+  },false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 

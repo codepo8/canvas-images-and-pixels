@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Copy image - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+</head>
+<body>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAAvElEQVRIidWUsRWAIAxEWcuaJRzI1gUcy4W08KXgnkcSAjwtrgmY73GBlFK6JuqDsHXPhbrC8vJImh/nVkjWsS77Zb0K05poMNxfhTEnXWHWY5F6KDPmiP3Mf2Bs+oYcoxXqHHUfDMWmD6c0dKm9Tl0w7bJbX5gmGDa1ZtzFGasrD3bMGRukLs6wCYNUM5NFbIp1JuN9e4fhR5oz9l0I5q03ZebN1pSZFriWVWhAGNQJsWVmddT06g/WPNgNenRDhJh4YtsAAAAASUVORK5CYII=" alt="dollar">
+  <button>Copy image to canvas ➜</button>
+  <canvas></canvas>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  var sourceimage = document.querySelector('img');
+  var canvas = document.querySelector('canvas');
+  canvas.height = canvas.width = 0;
+  var context = canvas.getContext('2d');
+  function copy() {
+    var imgwidth = sourceimage.offsetWidth;
+    var imgheight = sourceimage.offsetHeight;
+    canvas.width = imgwidth;
+    canvas.height = imgheight;
+    context.drawImage(sourceimage, 0, 0);
+  }
+  var button = document.querySelector('button');
+  button.addEventListener('click', copy, false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 

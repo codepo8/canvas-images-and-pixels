@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyse colours - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+</head>
+<body>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANQAAAA8CAYAAAAeyZT3AAAEtUlEQVR4nO2dQXYiMQxE8zgbx2GRQ+UEuSBZzOuNB7VKVkk2TS3+YgawZbtKkpu85Ot2uz2FEBy+VgcgxJWQoYQgIkMJQUSGEoKIDCUEERlKCCIylBBEZCghiMhQQhCRoYQgIkMJQUSGEoLIS0Pd7/fn/X5fHpwQ78ZLQz0ej+fj8VgenBDvxktDff/8Pr9/flWphAhyaiirUh1GO17/9Ipm7ceBEtPncGooq1JJMP841j0y7ov263M4vUNZlWr8f7RCjQIbx2EJDRU6e3z0/TLYWio7itOnfGOlOl5HjTAaxzJi1lieUcdxUSOg82YPlHVntRIHa70sIVclOgtUh4z9Ov0eagwENZS1ACvA2cxtGR+dZ7XQWMbyhOoJqmp9USGzH4ZldTijj1NDjQu1DMWqOON83kOR7DzjBnYbyjrIaEJBM72VgNjrzwo5ayy2PiJzQz8pgd6hWAfkbezsHc6aZ9dKNSYylgC8Fpl1btmEiq7fimNFooS+2PUEjWairMDYdy5WD++1Cui4VoJiGSlqhK7Pj2QNtfJ71NPH5uiCu1sH1nyW8Gdbg+zdxUok3ryshDAr5KqEGh1vZWU6mPpi1xI4KyN4wmRvXLbH9oyI3l1QQ1nvZ+0DmrDYlcnTGfr+Va377QZ+seu9ns2Q3oFV3dW8Vg39POvuEq1Q7H2PVqqqhIrq0Ip7O0N1PRTwsIRWVaFQgVbfXSxDsVs9a13e+Y8Crkqo0Uq5stU7SP2kRPWGeq1flZC81o3ValnCjFYotii8869u9dCWd9RjlQ4jQIYaF9ZVoSwBseeLZnxWhfIE6lWo6gTmnT9byFGjWgmJrbPIuqA7FFqhWAfrLZBdodBWsqoyWHeXXSpUdUKdNUbWUJ6BZlrrlKG6K1S1oFcbyhNydYU68OJgtXyszsMyQtQ4nu7ShrKciWb0bsFnBWQZprvlRFu+rv32KlQ0npnMP7N/UQMx4j29Q1kC6r4EVlcob71sAUQF0RUHuh+zFaorfnYlj4ynCgWMX10ZrITRXaHQOGZbp64EXAWtQnmGukqFQlu+6nWiFWqXONA7SDaeqvVG9TdtKGuA7oxTbajdKpRn7N3i6I6rSmce5RWqe6FV86EC6ur9d69QEYF1CbmDaUN5medqFcqax1pv9byrWk/rXK35unSw2lCRdUItn/d6dca0hFc1bneFmjUUOw6rM0ENVd2Ko+vt2pdX701VqK6Wb3WFsja2al60UlY9nEFb+lXxePvITjiR8aDfKTErQDZdFcpLICzhoPN5wmHFYRnJm2cHIVec08y6oD8WEP13NVXzdWfA2crPjsMaB01gOwj5LJ7Zz8/Mrwp1IuyuA59dZ1ccqEFWChmJxxvXq9TInJQ/Z1NtqK6KmG0tsgcVFeQucewg5Eg843zRu2PYULsYadV8WWN5BxQdf1UcWWF3CpkRF2PeqQrVVTGyQusel3VQq+OoEnalkHdBfxJ0Y1YlLrRVE/8jQ70R3S1R1fd9V0aGeiOqK8eVW7EuZKg3pMpYavHyyFBvTNZY1udlqHlkqAuAPpb2Hp/LSHlkqAux6/c+n4QMdWFUifqRoYQgIkMJQUSGEoKIDCUEERlKCCJ/UfsgwYPC0+cAAAAASUVORK5CYII=" alt="canvas">
+  <canvas></canvas>
+  <ol class="colours"></ol>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    var colourlist = document.querySelector('ol');
+    var context = canvas.getContext('2d');
+    var width = sourceimage.width;
+    var height = sourceimage.height;
+    canvas.height = height;
+    canvas.width = width;
+    context.drawImage(sourceimage,0,0);
+    var colours = {};
+    var sortedcolours = [];
+    var data = context.getImageData(0,0,width,height).data;
+    canvas.style.display = 'none';
+    var all = data.length;
+    for (var i = 0; i < all;i += 4) {
+      var key = data[i] + '-' + data[i+1] + '-' +
+                data[i+2] + '-' + data[i+3];
+      if (colours[key]){
+        colours[key]++;
+      } else {
+        colours[key] = 1;
+      }
+    }
+    sortedcolours = Object.keys(colours).sort(
+      function(a, b) {
+        return -(colours[a] - colours[b]);
+      }
+    );
+    var out = '';
+    sortedcolours.forEach(function(key){
+      var rgba = key.split('-');
+      out += '<li><span style="background: rgba(' +
+             rgba[0] + ',' + rgba[1] + ',' + rgba[2] +
+             ',' + rgba[3] +');">&nbsp;&nbsp;&nbsp;&nbsp;</span> ' +
+             colours[key] + '</li>';
+
+    });
+    colourlist.innerHTML = out;
+  },false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 
