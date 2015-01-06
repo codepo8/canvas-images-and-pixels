@@ -17,120 +17,160 @@
 <h1><span>Canvas, images and pixels - </span>things I learned building an 8 bit logo generator</h1>
 </header>
 <section>
-<h2>Canvas basics</h2>
+  <h2>Back to pixels!</h2>
+  <article>
+    <p>During my time off from work, I went back to one of my old passions: pixeling stuff on a Commodore 64. Many years ago (15, to be exact) I created a logo generator that allows you to put together a logo from a charset pixeled on a C64. This old version was written in PHP using GD. I then moved this to use canvas and work client-side some time ago. Now I thought would be fun to brush this up and play with it. So I create a much more bells and whistles version. You can see the "<a href="http://codepo8.github.io/logo-o-matic/#goto-orc">Logo-O-Matic</a>" online (and the <a href="https://github.com/codepo8/logo-o-matic/">source is of course available on GitHub</a>). The features are pretty nice:</p>
+    <ul>
+      <li>Choose from 58 fonts (and counting)</li>
+      <li>Create a logo using variable letter and word spacing</li>
+      <li>Inspect the logo (zooming, seeing the colour under the cursor)</li>
+      <li>Change the colours of the logo</li>
+      <li>Save the logo in original or double size as a PNG</li>
+    </ul>
+    <p>In this article, I will explain how some of that was done, repeat some canvas basics and show simpler examples of the editor features. So let's begin.</p>
+  </article>
+  <h2>Canvas basics</h2>
+  <article>
+    <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">canvas element</a> is a weird one in HTML. It does exactly nothing without JavaScript interaction and in markup is mainly there to be a placeholder for functionality that is relying on JS. Of course, it is still good to have it in your document as you can provide fallback content inside it.</p>
+    <p>Quick aside: "This product uses canvas and needs JavaScript and your browser doesn't support it, upgrade to something useful, you monkey" is *not* good fallback content. When I use canvas for animations I normally provide a static image as the fallback. This not only makes people happier - especially those who can not upgrade their browser - but it also means that social media sites like Facebook index this and show the image as the thumbnail.</p>
+    <p>The canvas API is very rudimentary, but also very powerful. It allows you to paint on the canvas using rectangles, lines, arcs and gradients and it has many ways to manipulate your brush and the fill you are using. It also has a dynamic coordinate system, which is quite a brain-teaser the first time you use it but is very powerful once you managed to understand it.</p>
+    <p>For this purpose here, we won't need the whole API, just a few parts of it. The HTML needed for the examples in this article is very basic:</p>
+    <pre>
+&lt;img src="…" alt="dollar"&gt;
+&lt;button&gt;Copy image to canvas ➜&lt;/button&gt;
+&lt;canvas&gt;&lt;/canvas>
+    </pre>
+    <p>In order to work with canvas, you need two things: a reference to the canvas element and one to its context. The reference is there to modify the element itself (for example resize it) and the context gives you the API to modify it.</p>
+    <pre>
+var canvas = document.querySelector('canvas');
+var context = canvas.getContext('2d');
+    </pre>
+    <p>The first thing we need to create a logo from an image containing a font set is to modify images, so let's start there.</p>
+    <h3>Modifying images with canvas</h3>
+    <p>One of the things canvas is good at is modifying images. Anything that is an image can be a data source for a canvas: an img element, a video element or even another canvas. Once you have the data you can manipulate it, either pixel by pixel or using the canvas API.</p> 
+    <p class="caveat"><strong>Caveat</strong>: the image has to be served from the same domain as the code that modifies the canvas because of security reasons. You can work around that limitation by using a proxy to load the image, using <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image">CORS</a> or by inlining the image. Another way is to ask users to upload or drag and drop the image. This is what I used in <a href="http://thewebrocks.com/demos/zoom-and-pick/">zoom and pick</a> or <a href="http://removephotodata.com/">Remove photo data</a>.</p> 
+    <p>For example, copying a picture to a canvas is as simple as this:</p>
+    <p><a href="copy.html" class="example" data-height="360px">Copy an image</a></p>
+    <p>Once you have the image on the canvas you can manipulate it any way you want to using the canvas API. Notice though that there is no state in canvas. Every step is like painting over the original content of the canvas and there is no undo. All you do is manipulate a canvas. You can however save and restore the state of the context, for example if you want to rotate the image:</p>
+    <p><a href="rotate.html" class="example" data-height="490px">Rotate an image</a></p>
+    <p>If you are confused by what's going on here, <a href="http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/">this image rotation tutorial should make things clearer</a>. </p>
+    <p>The <code>drawImage()</code> method does not only copy the image, you can also resize it. This is not like resizing an IMG element - which only does this visually. Resizing on a canvas also means you discard or add pixels to the image. It is a real painting process, not a squashing or stretching. To resize an image, all you need to do is to define a different size in the parameters of the <code>drawImage()</code> method:</p>
+    <p><a href="resize.html" class="example" data-height="420px">Resize an image</a></p>
+    <p>If all you want to do is to scale the image by a certain factor, you can also scale the coordinate system of the context:</p>
+    <p><a href="scale.html" class="example" data-height="450px">Scale an image</a></p>
+    <p>Instead of using the whole image, you can also access parts of it. The <code>drawImage()</code> method allows you to pick a part of the image by providing it with a start coordinate and a width and a height of the square to copy over. For example to crop the "v" from the canvas logo above, all you need to know where the letter starts and how wide and tall it is. <img src="img/infographic.png" alt="cropping from the main image"></p>
+    <p>The following example shows how to crop the 'v' from the logo using these coordinates:</p>
+    <p><a href="crop.html" class="example" data-height="320px">Crop image out of larger image</a></p>
+    <p>That was the first thing needed to create a logo from a charset. All that was necessary was to know the start coordinate of each letter and the width and height and things fell into place.</p>
+  </article>
+  <article>
+    <h3>Reading and manipulating pixel data</h3>
+    <p>You can also read the whole pixel data of an image and run, for example, some analysis on it. The following example reads all the pixel colours in an image and returns a list of the most common colours:</p>
+    <p><a href="analysecolours.html" class="example" data-height="870px">Count the colours used in an image</a></p>
+    <p>One of the features people asked for was to have a display of the colour of the current pixel to see which ones the original artist used.</p>
+    <p><img src="img/pick.gif" alt="reading the colour under the mouse"></p>
+    <p>This is pretty easy to do:</p>
+    <ol>
+      <li>Read the current mouse position (using <code>layerX</code> and <code>layerY</code> of the event object - make sure to position the canvas relatively for this to work)</li>
+      <li>Get the image data of that pixel</li>
+      <li>Write this to the <code>background</code> style of the colour display using RGBA</li>
+    </ol>
+    <p>In code, it looks like this (move your mouse over the logo to see the colour of each pixel): </p>
+    <p><a href="readcolour.html" class="example" data-height="520px">Read colour under mouse cursor</a></p>
 
-<article>
-  <h3>Modifying images (crop, copy)</h3>
-
-<p>One of the things canvas is good at is modifying images. Anything that is an image can be a data source for a canvas: an img element, a video element or even another canvas. Once you have the data you can manipulate it, either pixel by pixel or using the canvas API.</p> 
-
-<p class="caveat">Caveat: the image has to be served from the same domain as the code that modifies the canvas because of security reasons. You can work around that limitation by using a proxy to load the image, using <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image">CORS</a> or by inlining the image. Another way is to ask users to upload or drag and drop the image. This is what I used in <a href="">zoom and pick</a> or <a href="">Remove photo data</a>.</p> 
-
-<p>For example, copying a picture to a canvas is as simple as this:</p>
-
-
-    <a href="copy.html" class="example" data-height="360px">Copy an image</a>
-
-<p>This is not much of a rivetting example, but you can extend this by for example rotating the image:</p>
-
-    <a href="rotate.html" class="example" data-height="490px">Rotate an image</a>
-
-<p>If you are confused by what's going on here, <a href="http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/">this image rotation tutorial should make things clearer</a>. </p>
-
-<p>Resizing is also possible. All you need to do is to define a different size in the parameters of the drawImage() method:</p>
-
-    <a href="resize.html" class="example" data-height="420px">Resize an image</a>
-
-<p>If all you want to do is to scale the image by a certain factor, you can also scale the whole canvas:</p>
-
-    <a href="scale.html" class="example" data-height="450px">Scale an image</a>
-
-<p>You don't need to use the whole image. The <code>drawImage()</code> method also allows you to pick a part of the image by providing it with a start coordinate and a width and a height of the square to copy over. For example to crop the "v" from the canvas logo above, I needed to know where the letter started and how wide and tall it is. <img src="img/infographic.png" alt="cropping from the main image"></p>
-
-<p>The following example shows how that is done:</p>
-
-    <a href="crop.html" class="example" data-height="320px">Crop image out of larger image</a>
-
-<p>That was the first thing needed to create a logo from a charset. All that was necessary was to know the start coordinate of each letter and the width and height and things fell into place.</p>
-</article>
-<article>
-<h3>Reading and manipulating pixel data</h3>
-
-    <a href="readcolour.html" class="example" data-height="520px">Read colour under mouse cursor</a>
-
-<p>You can also read the whole pixel data of an image and run, for example, some analysis on it. The following example reads all the pixel colours in an image and returns a list of the most common colours:</p>
-
-    <a href="analysecolours.html" class="example" data-height="870px">Count the colours used in an image</a>
-
-<p>Replacing </p>
-
-    <a href="colourshift.html" class="example" data-height="570px">Shift colours from green to red</a>
-
-</article>
+    <p><a href="colourshift.html" class="example" data-height="570px">Shift colours from green to red</a></p>
+    <p>We can crop letters from an image and plot them onto a canvas and manipulate their pixels. That's all we need. Next was the task to get from a string to an image.</p>
+  </article>
 </section>
 <section>
-<h2>From alphabet to logo</h2>
+  <h2>From alphabet to logo</h2>
   <article>
     <h3>Defining the letter dataset</h3>
+    <p>In order to create a logo from an image, I needed to find a way to map a string to coordinates of the image. Therefore, I created a JSON object with all the letters of the alphabet and their coordinates in the font:</p>
+    <pre>
+var font = {
+  height: 15,
+  a:[0,15],b:[16,15],c:[32,15],d:[48,15],
+  …
+  y:[385,13],z:[400,15]
+};
+    </pre>
+  <p>As all characters in the font are the same height, I didn't need three pieces of information for each. All that was needed is the start x coordinate and how wide each character is. This allows me now to take a string and loop over each of its characters and assemble a logo.  All in all this keeps the data size small, which you can <a href="http://codepo8.github.io/logo-o-matic/js/fonts.js">see the object of the live editor</a> containing some extra meta data for each font.</p>
+
   </article>
   <article>
     <h3>Assembling the logo</h3>
-    <a href="generatelogo.html" class="example" data-height="990px">Generate Logo</a>
- 
- </article>
+    <p>Assembling the logo itself seems to be pretty simple:</p>
+    <ol>
+      <li>Take a string</li>
+      <li>Split it into letters</li>
+      <li>Loop over the array of letters</li>
+      <li>Read the coordinates from the dataset</li>
+      <li>Crop letter from the alphabet image and copy it to the canvas</li>
+    </ol>
+    <p>However, there is one snag: we want the canvas to be the right size and you can not change the size of a canvas. Every time you do that, it gets wiped. This is actually great when you animate a canvas, but in this case really annoying. This means that before we do the above, we need to calculate the appropriate size of the canvas. When doing that, we also need to take care of spacing between letters and a border around the whole logo. All in all, the logic to create a right-sized canvas and plot the logo goes as follows:</p>
+    <ol>
+      <li>Take a string</li>
+      <li>Split it into letters</li>
+      <li>Loop over the array of letters</li>
+      <li>Read the coordinates from the dataset and add up all the widths of them</li>
+      <li>Add to this the letter spacing amount multiplied by the amount of letters</li>
+      <li>Detract one spacing (as you don't want a space after the last letter)</li>
+      <li>Add twice the padding (left and right of the logo) and you have the overall width of the necessary canvas</li>
+      <li>The height of the canvas is the height of the font plus twice the vertical padding</li>
+      <li>Resize the canvas and fill it with a background colour (by default, canvasses are transparent)</li>
+      <li>Set the horizonal padding as the start coordinate to plot letters to</li>
+      <li>Crop the letter from the image and plot it at the horizontal coordinate and vertical padding coordinate</li>
+      <li>Add the width of the letter and the letter spacing to the horizontal coordinate and get the next letter</li>
+    </ol>
+    <p>In code, this looks much less complex:</p>
+    <p><a href="generatelogo.html" class="example" data-height="990px">Generate Logo</a></p>
+    <p>That gives us our logo, but how can users of the logo generator save it?</p>
+  </article>
 </section>
-<section>
-  <h2>Extra functionality</h2>
-<article>
-  <h3>Zooming</h3>
-  <a href="zoombroken.html" class="example" data-height="520px">Zooming - washed out</a>
-<p>Pixelated</p>
-  <a href="zoomfixed.html" class="example" data-height="570px">Zooming - pixelated</a>
-</article>
-<article>
-  <h3>Changing logo colours</h3>
-
-  <p>As not everybody was happy with the original colours of some of the fonts, I thought I'd offer a possibility to change the colours by replacing an existing colour with one of the 16 preset ones: <img src="img/recolour.gif" alt="changing the colours of a logo"></p>
-
-  <a href="replacecolour.html" class="example" data-height="870px">Changing logo colours</a>
-
-</article>  
-<article>
-  <h3>Generating the font dataset</h3>
-  <p>When I got more and more fonts, it got a bit tiring and time consuming to create the font dataset by hand in photoshop (and it was error prone). That's why I thought of a way to automatically generate the dataset from the image. The logic is pretty simple: as pixel fonts the way I use are fixed to a certain ammount of colours (<a href="http://www.pepto.de/projects/colorvic/">16 to be exact</a>) all I had to do is use a a colour that isn't used in between the letters. Much like a green screen works in the movies.</p>
-
-  <p>In the case of the font, this looks like this: <img src="img/greenaz.png" alt="Font with green separator lines"></p>
-
-  <p>You can also see this in the live canvas image of the logo generator at the newer fonts on the bottom: <a href="https://codepo8.github.io/logo-o-matic/img/canvas.png">4000&times;4000 pixel PNG, ~450MB</a>.</p>
-
-  <p>All I have to do then is to take one pixel line from the image and loop through it, pixel by pixel:</p>
-
-  <ol>
-    <li>If the current pixel is not green, I increase the letterwidth value.</li>
-    <li>If the current pixel is green, I am at the end of a letter.</li>
-    <li>I then add the information to the dataset using the current letter in the alphabet as the property.</li>
-    <li>I get the start coordinate of the letter by substracting the letterwidth from the loop iterator divided by 4 (as each pixel has 4 values - R, G, B and A).</li>
-    <li>I increase the letter counter by one, moving ahead in the alphabet array when the letterwidth is more than one. This prevents wrong assignment when there is more than one pixel line between letters.</li>
-    <li>I reset the letter width to 0, as I am still on a green line and the next letter hasn't started yet.</li>
-  </ol>
-
-  <p>In the live logo generator I also need to provide a starting point, as I keep all fonts in one image. This is not needed here.</p>
-  <p>You can see this working and the source code in the following example:</p> 
-  <p><a href="generatedataset.html" class="example" data-height="990px">Generate dataset</a></p>
-
-</article>
-</section>
-
 <section>
   <h2>Saving the image</h2>
   <article>
-
-  <a href="toinline.html" class="example" data-height="570px">Images to inline</a>
-
+    <p><a href="toinline.html" class="example" data-height="570px">Images to inline</a></p>
   </article>
 </section>
+<section>
+  <h2>Extra functionality</h2>
+  <article>
+    <h3>Zooming</h3>
+    <p>One of the coolest things to do with pixel art is to zoom in and see how it is done. Especially on a platform as limited as the C64 this can be very insightful. Anti-aliasing, dithering, gradients - all of this had to be simulated with 16 colours 3 of which you could use every 8&times;8 pixels. Therefore people wanted a zoom function on the logo editor and this is what it looks like: <img src="img/zoom.gif" alt="zooming the logo"></p>
+    <p>Using canvas, this can be easily achieved: all you need to do is to determine the position of the mouse, and crop an image of - for example - 5 pixels left and above to 5 pixels right and below of the mouse position. Then you copy that one over to another canvas and resize the image to the size you want it to.</p>
+    <p>For this, we need a second canvas which gets sized to give us enough space and read the mouse position like we did before in the colour detection examples. In the zoom canvas we resize a 10&times;10 pixel crop of the original canvas to 200&times;200. The following example shows how that's done:</p>
+    <p><a href="zoombroken.html" class="example" data-height="520px">Zooming - washed out</a></p>
+    <p>This, however, looks terrible as the canvas tries to be good at resizing and smoothes the resized image. Whilst this is prettier for, let's say photos, it is ugly for pixel art. You can force a canvas to not smooth pixels by setting the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.imageSmoothingEnabled"><code>imageSmoothingEnabled</code></a> property of the context to <code>false</code>. Notice that this needs to be prefixed for browsers. The following example sets this property and voilà, our zooming is much more pixelated - just like we want it:</p>
+    <p><a href="zoomfixed.html" class="example" data-height="570px">Zooming - pixelated</a></p>
+    <p class="caveat"><strong>Caveat</strong>: Sadly, <a href="http://msdn.microsoft.com/en-us/library/ie/dn265062%28v=vs.85%29.aspx">IE does not support this feature for versions older than IE11</a> which might make it necessary to do the zoom by hand. To do this, all we'd need to do is to read the pixel array of the cropped image and write out larger rectangles of these colours. I've used that technique in the <a href="http://thewebrocks.com/demos/zoom-and-pick/">Zoom and Pick</a> tool (<a href="https://github.com/codepo8/zoom-and-pick">source available here</a>).</p>
+  </article>
+  <article>
+    <h3>Changing logo colours</h3>
+    <p>As not everybody was happy with the original colours of some of the fonts, I thought I'd offer a possibility to change the colours by replacing an existing colour with one of the 16 preset ones: <img src="img/recolour.gif" alt="changing the colours of a logo"></p>
+    <p><a href="replacecolour.html" class="example" data-height="870px">Changing logo colours</a></p>
+  </article>  
+  <article>
+    <h3>Generating the font dataset</h3>
+    <p>When I got more and more fonts, it got a bit tiring and time consuming to create the font dataset by hand in photoshop (and it was error prone). That's why I thought of a way to automatically generate the dataset from the image. The logic is pretty simple: as pixel fonts the way I use are fixed to a certain ammount of colours (<a href="http://www.pepto.de/projects/colorvic/">16 to be exact</a>) all I had to do is use a a colour that isn't used in between the letters. Much like a green screen works in the movies.</p>
+    <p>In the case of the font, this looks like this: <img src="img/greenaz.png" alt="Font with green separator lines"></p>
+    <p>You can also see this in the live canvas image of the logo generator at the newer fonts on the bottom: <a href="https://codepo8.github.io/logo-o-matic/img/canvas.png">4000&times;4000 pixel PNG, ~450MB</a>.</p>
+    <p>All I have to do then is to take one pixel line from the image and loop through it, pixel by pixel:</p>
+    <ol>
+      <li>If the current pixel is not green, I increase the letterwidth value.</li>
+      <li>If the current pixel is green, I am at the end of a letter.</li>
+      <li>I then add the information to the dataset using the current letter in the alphabet as the property.</li>
+      <li>I get the start coordinate of the letter by substracting the letterwidth from the loop iterator divided by 4 (as each pixel has 4 values - R, G, B and A).</li>
+      <li>I increase the letter counter by one, moving ahead in the alphabet array when the letterwidth is more than one. This prevents wrong assignment when there is more than one pixel line between letters.</li>
+      <li>I reset the letter width to 0, as I am still on a green line and the next letter hasn't started yet.</li>
+    </ol>
 
-
+    <p>In the live logo generator I also need to provide a starting point, as I keep all fonts in one image. This is not needed here.</p>
+    <p>You can see this working and the source code in the following example:</p> 
+    <p><a href="generatedataset.html" class="example" data-height="990px">Generate dataset</a></p>
+  </article>
+</section>
 <script>
 window.addEventListener('load', function(ev){
   var examples = document.querySelectorAll('.example');

@@ -40,6 +40,21 @@ li {
   line-height: 1.3em;
   padding-bottom: .5em;
 }
+code {
+  font-family: inherit;
+  background: #ccc;
+  padding: 0 5px;
+}
+a {
+  color: #369;
+  border-bottom: 1px transparent solid;
+  text-decoration: none;
+  transition: 0.5s;
+}
+a:hover, a:focus {
+  color: #036;
+  border-bottom: 1px #369 solid;
+}
 h1 {
   color: #ccc;
   font-family: helvetica, arial, sans-serif;
@@ -51,6 +66,11 @@ h1 span {
   position: absolute;
   opacity: 0;
   top: -2em;
+}
+.caveat {
+  background: url(../img/sadpanda.png) no-repeat 10px 5px;
+  padding-left: 90px;
+  min-height: 75px;
 }
 h2 {
   background: #999;
@@ -71,7 +91,7 @@ p img {
   margin: 5px;
 }
 
-.example {
+a.example {
   background: #369;
   padding: 5px;
   border-radius: 5px;
@@ -80,6 +100,9 @@ p img {
   line-height: 1.5em;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+}
+a.example:hover {
+  background: #69c;
 }
 
 
