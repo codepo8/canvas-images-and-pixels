@@ -56,7 +56,7 @@
         <li><a href="#download-attribute">The excellent <code>download</code> attribute</a>
           <ul>  
             <li><a href="#download-image">Demo: Make image downloadable</a></li>
-            <li><a href="£download-canvas-wrapped">Demo: Wrap canvas in link</a></li> 
+            <li><a href="#download-canvas-wrapped">Demo: Wrap canvas in link</a></li> 
             <li><a href="#download-workaround">Workaround for lacking <code>download</code> support</a>
               <ul>
                 <li><a href="#hacking-download">Demo: Hacking around lack of <code>download</code> support</a></li>
@@ -93,6 +93,7 @@
   <h2 id="back-to-pixels">Back to pixels!</h2>
   <article>
     <p>During my time off from work, I went back to one of my old passions: pixeling stuff on a Commodore 64. Many years ago (15, to be exact) I created a logo generator that allows you to put together a logo from a charset pixeled on a C64. I wrote this old version in PHP using GD and moved it to use canvas and work client-side some time ago. Now I thought it would be fun to brush this up and play with it. So I created a much more bells and whistles version. You can see the "<a href="http://codepo8.github.io/logo-o-matic/">Logo-O-Matic</a>" online (and the <a href="https://github.com/codepo8/logo-o-matic/">source is of course available on GitHub</a>).</p>
+    <p><img src="img/logogen.gif" alt="logo generator in action"></p>
     <p>The features are pretty nice:</p>
     <ul>
       <li>Choose from 58 fonts (and counting)</li>
@@ -101,7 +102,7 @@
       <li>Change the colours of the logo</li>
       <li>Save the logo in original or double size as a PNG.</li>
     </ul>
-    <p>In this article, I will explain how I did some of that, repeat some canvas basics and show simpler examples of the editor features. So let's begin.</p>
+    <p>In this article, I will explain how I did some of that, repeat some canvas basics and show simpler examples of the editor features. The whole article and demos is hosted on GitHub, <a href="https://github.com/codepo8/canvas-images-and-pixels/">so feel free to download</a> and play with the examples. Originally, I planned to create a fiddle for each example, but I have no internet right now.</p>
   </article>
   <h2 id="canvas-basics">Canvas basics</h2>
   <article>
@@ -321,11 +322,11 @@ var font = {
   <h2 id="sys64738">SYS 64738</h2>
   <article>
     <p>That's all there is to this article. Nothing ground-breaking or earth shattering. No new library to use, NPM module to install or Grunt plugin to add. Just some fun with JavaScript and explanations. I enjoyed coding this and cleaning it up and I hope you learned something from it. Now <a href="http://codepo8.github.io/logo-o-matic/">go and create some cool logos</a>.</p>
-    <p>This is on GitHub, so if you want something changed or have some questions, don't be shy and <a href="https://github.com/codepo8/canvas-images-and-pixels/">file an issue</a>. You can also reach me on Twitter as <a href="http://twitter.com/codepo8">@codepo8</a>.</p>
+    <p>This is on GitHub, so if you want something changed or have some questions, don't be shy and <a href="https://github.com/codepo8/canvas-images-and-pixels/issues">file an issue</a>. You can also reach me on Twitter as <a href="http://twitter.com/codepo8">@codepo8</a>.</p>
   </article>
 </section>
 <footer>
-  <p>Written during an internet outage by Chris Heilmann, using plain JS, CSS and HTML. <span>Psst… Go and check the way the live code demos work, it is kinda nifty.</span></p>
+  <p>Written during an internet outage by Chris Heilmann, using plain JS, CSS and HTML. <a href="https://github.com/codepo8/canvas-images-and-pixels/">Download on GitHub</a>. <span>Psst… Go and check the way the live code demos work, it is kinda nifty.</span></p>
 </footer>
 <script>
 

@@ -200,7 +200,9 @@ nav a:hover, nav a:focus {
 #toc.open:before {
   transform: rotate(90deg);
 }
-
+footer a {
+  color: #fff;
+}
 @media screen and (min-width:1070px) {
   nav {
     display: block;
