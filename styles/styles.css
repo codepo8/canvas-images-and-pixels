@@ -190,7 +190,7 @@ nav a:hover, nav a:focus {
   position: absolute;
   right: 2em;
   content: '▶';
-  transform: rotate(0);
+  -webkit-transform: rotate(0deg);
   transition: 0.5s;
 }
 #toc {
@@ -199,6 +199,7 @@ nav a:hover, nav a:focus {
 }
 #toc.open:before {
   transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
 }
 footer a {
   color: #fff;
