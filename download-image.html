@@ -47,10 +47,9 @@
       if (mousedown) {
         var x = ev.layerX;
         var y = ev.layerY;
-        context.beginPath();
-        context.arc(x, y, 10 , 0, Math.PI * 2, true);
-        context.closePath();
-        context.fill();
+        x = (Math.ceil(x / 10) * 10) - 10;
+        y = (Math.ceil(y / 5) * 5) - 5;
+        context.fillRect(x, y, 10, 5);
       }
     }
     var link = document.createElement('a');
