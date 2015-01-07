@@ -30,18 +30,20 @@
       var green = [62, 255, 67, 255];
       var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
       var dataset = {};
-      dataset.height = height;
       var pixels = context.getImageData(0,5,width,1).data;
       var all = pixels.length;
       var letterwidth = 0;
       var letter = 0;
+      dataset.height = height;
       for (var i = 0; i < all; i += 4) {
         if (pixels[i] === green[0] &&
             pixels[i+1] === green[1] &&
             pixels[i+2] === green[2] &&
             pixels[i+3] === green[3] ) {
           if (letterwidth > 0) {
-            dataset[letters[letter]] = [(i / 4 - letterwidth), letterwidth];
+            dataset[letters[letter]] = [
+              (i / 4 - letterwidth), letterwidth
+            ];
             letter++;
           }
           letterwidth = 0;

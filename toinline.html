@@ -6,12 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/demostyles.css">
+  <style type="text/css">
+    input[type="number"] {width: 3em; font-size: 20px;}
+    input[type="checkbox"] {font-size: 20px;transform: scale(1.5);}
+    label[for="quality"]{opacity: 0.2;transition: 1s;}
+    input:checked + label{opacity:1;};
+  </style>
 </head>
 <body>
-  <h1>Click image to get inline string</h1>
-  <img src="img/and1.png" alt="and">
+  <h1>Click image to convert to URL, play with the settings to see changes.</h1>
+  <img src="img/horse.png" width="100" alt="wut?">
   <img src="img/and2.png" alt="and">
   <img src="img/dollar.png" alt="dollar">
+  <label for="jpg">JPG?</label><input type="checkbox" id="jpg">
+  <label for="quality">Quality: </label><input type="number" id="quality" max="1" min="0" step="0.1" value="0.6">
+  <output></output>
   <textarea></textarea>
   <canvas></canvas>
   <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
@@ -20,19 +29,31 @@
     var sourceimage = document.querySelector('img');
     var canvas = document.querySelector('canvas');
     var out = document.querySelector('textarea');
+    var output = document.querySelector('output');
+    var jpg = document.querySelector('#jpg');
+    var quality = document.querySelector('#quality');
     var context = canvas.getContext('2d');
     canvas.style.display = 'none';
-    function inlineimage(ev) {
+    function toURL(ev) {
       var t = ev.target;
       if (t.tagName === 'IMG') {
-        canvas.height = t.height;
-        canvas.width = t.width;
-        context.drawImage(t, 0, 0);
-        out.value = canvas.toDataURL('image/png');
+        canvas.height = t.offsetHeight;
+        canvas.width = t.offsetWidth;
+        context.drawImage(
+          t, 0, 0, t.offsetWidth, t.offsetHeight
+        );
+        var url = jpg.checked ? 
+          canvas.toDataURL('image/jpeg', +quality.value) :
+          canvas.toDataURL('image/png');
+        out.value = url;
+        var img = document.createElement('img');
+        img.setAttribute('src', url);
+        output.innerHTML = url.length + ' bytes ';
+        output.appendChild(img);
       }
     }
-    document.body.addEventListener('click', inlineimage, false);
-  },false);
+    document.body.addEventListener('click', toURL, false);
+  } ,false);
 </script>
 <script src="js/scriptshower.js"></script>
 </body>

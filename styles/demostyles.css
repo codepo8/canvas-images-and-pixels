@@ -16,6 +16,7 @@ textarea {
   counter-reset: list;
 }
 .code li {
+  font-size: 18px;
   list-style: none;
   position: relative;
   color: #ccc;
@@ -24,7 +25,6 @@ textarea {
 .code li strong {
   color: #fff;
   font-weight: bold;
-  font-size: 1.1em;
 }
 .code li::before {
   counter-increment: list;
@@ -44,8 +44,9 @@ input[type="text"] {
   background: #ccc;
   padding: 5px 10px;
 }
-canvas {
+canvas, img {
   position: relative;
+  top: 5px;
 }
 .zoom {
   position: absolute;
@@ -60,7 +61,7 @@ canvas {
   z-index: 1;
 }
 button {
-  margin: 0 1em;
+  margin: -5px 1em 0 1em;
   background: #396;
   color: #fff;
   border: none;
@@ -68,11 +69,11 @@ button {
   font-size: 1.1em;
 }
 div {
-  width: 200px;
-  height: 50px;
+  width: 80px;
+  height: 49px;
   position: absolute;
-  top: 60px;
-  right: 5px;
+  top: 10px;
+  right: 220px;
 }
 h1 {
   font-family: helvetica, arial, sans-serif;

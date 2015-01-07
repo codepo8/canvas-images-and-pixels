@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wrap canvas in link - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+  <style type="text/css">
+    canvas {
+      margin-left: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click image to shift colours, click result image to download.</h1>
+  <img src="img/horse.png" width="100" alt="wut?">
+  <img src="img/and2.png" alt="and">
+  <img src="img/dollar.png" alt="dollar">
+  <a href="#" download="dummy.png"><canvas></canvas></a>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    canvas.height = 1;
+    var link = document.querySelector('a');
+    var context = canvas.getContext('2d');
+    function todownload(ev) {
+      var t = ev.target;
+      if (t.tagName === 'IMG') {
+        shiftredtogreen(t);
+        var name = t.src.split('/');
+        link.download = name[name.length - 1];
+        link.href = canvas.toDataURL('image/png');
+      }
+    }
+    function shiftredtogreen(img) {
+      var width = img.offsetWidth;
+      var height = img.offsetHeight;
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(img, 0, 0, width, height);
+      var pixels = context.getImageData(
+        0, 0, width, height
+      );
+      var all = pixels.data.length;
+      var data = pixels.data;
+      for (var i = 0; i < all;i += 4) {
+          var stash = data[i];
+          data[i] = data[i+1];
+          data[i+1] = stash;
+      }
+      context.putImageData(pixels, 0, 0);
+    }    
+    document.body.addEventListener(
+      'click', todownload, false
+    );
+  } ,false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html>

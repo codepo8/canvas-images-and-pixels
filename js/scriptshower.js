@@ -1,3 +1,6 @@
+/*
+  Turning live script blocks into displays
+*/
 (function(){
   var s = document.querySelector('script');
   var pre = document.createElement('ol');
@@ -16,6 +19,8 @@
   out += '</li>';
   pre.innerHTML = out;
   s.parentNode.insertBefore(pre,s);
+
+  // Remove link to parent if included in iframe
   if (parent.frames.length > 0) {
     document.querySelector('p').style.display = 'none';
   }

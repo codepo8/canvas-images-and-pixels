@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download image - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+  <style type="text/css">
+    canvas {
+      background: peachpuff;
+    }
+    a[download]{
+      display: block;
+      width: 280px;
+      background: #369;
+      color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+    a[download], h1 span {
+      opacity: 0;
+    }
+    .painted a[download], .painted h1 span {
+      opacity: 1;
+      transition: 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <h1>Paint on canvas (mousedown to paint)<span>, click link to download image.</span></h1>
+  <canvas></canvas>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var sourceimage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    var link = document.querySelector('a');
+    var context = canvas.getContext('2d');
+    var mouseX = 0, mouseY = 0,
+        width = 300, height = 300,
+        mousedown = false;
+    canvas.width = width;
+    canvas.height = height;
+    context.fillStyle = 'hotpink'; 
+    function draw(ev) {
+      if (mousedown) {
+        var x = ev.layerX;
+        var y = ev.layerY;
+        context.beginPath();
+        context.arc(x, y, 10 , 0, Math.PI * 2, true);
+        context.closePath();
+        context.fill();
+      }
+    }
+    var link = document.createElement('a');
+        link.innerHTML = 'download image';
+        link.href = "#";
+        link.download = "mypainting.png";
+    document.body.insertBefore(link, canvas);
+    canvas.addEventListener('mouseover', function(ev) {
+      document.body.classList.add('painted');
+    }, false);
+    canvas.addEventListener('mousemove', draw, false);
+    canvas.addEventListener('mousedown', function(ev) {
+      mousedown = true;
+    }, false );
+    canvas.addEventListener('mouseup', function(ev) {
+      link.href = canvas.toDataURL();
+      mousedown = false;
+    }, false );
+  } ,false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html>

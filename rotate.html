@@ -23,11 +23,13 @@
     var imgheight = sourceimage.offsetHeight;
     canvas.width = imgwidth;
     canvas.height = imgheight;
-    context.save();
+    context.save();//!#
     context.translate(imgwidth / 2, imgheight / 2);
     context.rotate(Math.PI/2);
-    context.drawImage(sourceimage, -(imgwidth / 2), -(imgheight / 2));
-    context.restore();
+    context.drawImage(
+      sourceimage, -(imgwidth / 2), -(imgheight / 2)
+    );
+    context.restore();//!#
   }
   var button = document.querySelector('button');
   button.addEventListener('click', rotate, false);

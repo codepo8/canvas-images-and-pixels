@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles/demostyles.css">
 </head>
 <body>
-  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAAAiCAYAAACjkxAyAAACbUlEQVR4nO2WsbHDMAxDPZzG8RiZImNlIf/KKXTHIwCSkqOvAkUSiwKhJzrHcRzX1lahphvYWlvTDWytrekGttbWdANba0tffJ7ndZ7n9f68rvfn9f2cZS67/ii/6u+z+ynKJ26kV3aj0fqj/VrP/dN8+EWWkSxjWfW94HplHTTa1+r50IBZhqzRygbJNnyrtXa11r517s9snSyfLBij80HPK+lC6IChn6MBsgBXB6jedBXMqnzU80wHzNu4D541htbP9qH6VQF7Sj7RHNMBi04ONMAsIKJBo4BZEyUKyqh81BzTALvf3ehGqPFofQ8I1of1XP/fxXq+aoJV54NeLBEsHzDWSB8Ie1De85YPDzBvUrAHWf2qm5WPVTcof3J5YLFS66OBs8CwwbOgePV7X9X5eD4s0O7vSRD1IFSpk7Fqglnr0P86UQAs/1X59KD0YKHAg6DZQVgGsgCzDHuAe42qEwBdp15AdF11Piho6H4OF3mvMFSscfR374KoAHivGMsH2jd7QaL5eKB5k43kYt4EQ28OGmT2BGMB9iYFevDV+aDnwu4jTzD0JqgTLHpQFmDsBUH9sPmwfqrzQc8HBc2p728weoKNBoBdh+ZjHVRWn9F1KnhkrvkTzAtSvWnVEywKjgdidp9Z+aCglU0wtkFvnQrArAnGTiZvHXtBq/Jh/YlcxAupQY8CuKp+FLjkg0z3XwZYVpBoINEblP0860fdDwWtOp/ooHD6iDcqbrzs89E8nu6frK83OjrIX6sfrfc0/2L95wX56/r1PJLPd35DW0truoGttTXdwNbamm5ga21NN7C1tqYb2FpYf9Se0fXaeX8oAAAAAElFTkSuQmCC" alt="canvas">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAAAiCAYAAACjkxAyAAACbUlEQVR4nO2WsbHDMAxDPZzG8RiZImNlIf/KKXTHIwCSkqOvAkUSiwKhJzrHcRzX1lahphvYWlvTDWytrekGttbWdANba0tffJ7ndZ7n9f68rvfn9f2cZS67/ii/6u+z+ynKJ26kV3aj0fqj/VrP/dN8+EWWkSxjWfW94HplHTTa1+r50IBZhqzRygbJNnyrtXa11r517s9snSyfLBij80HPK+lC6IChn6MBsgBXB6jedBXMqnzU80wHzNu4D541htbP9qH6VQF7Sj7RHNMBi04ONMAsIKJBo4BZEyUKyqh81BzTALvf3ehGqPFofQ8I1of1XP/fxXq+aoJV54NeLBEsHzDWSB8Ie1De85YPDzBvUrAHWf2qm5WPVTcof3J5YLFS66OBs8CwwbOgePV7X9X5eD4s0O7vSRD1IFSpk7Fqglnr0P86UQAs/1X59KD0YKHAg6DZQVgGsgCzDHuAe42qEwBdp15AdF11Piho6H4OF3mvMFSscfR374KoAHivGMsH2jd7QaL5eKB5k43kYt4EQ28OGmT2BGMB9iYFevDV+aDnwu4jTzD0JqgTLHpQFmDsBUH9sPmwfqrzQc8HBc2p728weoKNBoBdh+ZjHVRWn9F1KnhkrvkTzAtSvWnVEywKjgdidp9Z+aCglU0wtkFvnQrArAnGTiZvHXtBq/Jh/YlcxAupQY8CuKp+FLjkg0z3XwZYVpBoINEblP0860fdDwWtOp/ooHD6iDcqbrzs89E8nu6frK83OjrIX6sfrfc0/2L95wX56/r1PJLPd35DW0truoGttTXdwNbamm5ga21NN7C1tqYb2FpYf9Se0fXaeX8oAAAAAElFTkSuQmCC" alt="canvas" style="top:10px">
   <button>Crop out the 'v' ➜</button>
   <canvas></canvas>
   <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
@@ -20,7 +20,9 @@
   function copy() {
     canvas.width = 22;
     canvas.height = 23;
-    context.drawImage(sourceimage, 77, 5, 22, 23, 0, 0, 22, 23);
+    context.drawImage(
+      sourceimage, 77, 5, 22, 23, 0, 0, 22, 23//!#
+    );
   }
   var button = document.querySelector('button');
   button.addEventListener('click', copy, false);

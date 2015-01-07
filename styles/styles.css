@@ -1,20 +1,24 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: helvetica, arial, sans-serif;
+  background: #f8f8f8;
+  font-family: Candara,"Book Antiqua", helvetica, arial, sans-serif;
 }
 iframe {
   display: block;
   min-width: 700px;
+  width: 100%;
   height: 400px;
   border:none;
   box-shadow: 2px 2px 5px #333 inset;
   background: #ccc;
 }
+
 header {
   display: block;
   background: #000;
   padding: 5px 10px;
+  min-height: 100px;
 }
 header img {
   vertical-align: middle;
@@ -22,36 +26,48 @@ header img {
 section {
   background: #f8f8f8;
   display: block;
-  padding: 5px 10px;
+  padding: 5px 15px;
 }
 article {
-  clear: both;
+  clear: left;
   display: block;
-  margin: 0 2em;
+  margin: 0 1em;
 }
-p{
+pre {
+  font-size: 16px;
+}
+p {
+  clear: left;
   color: #111;
   line-height: 1.3em;
-  font-size: 16px;
+  font-size: 18px;
 }
 li {
-  font-size: 16px;
+  font-size: 18px;
   color: #000;
   line-height: 1.3em;
   padding-bottom: .5em;
+}
+blockquote {
+  font-size: 18px;
+  font-family: Rockwell;
 }
 code {
   font-family: inherit;
   background: #ccc;
   padding: 0 5px;
 }
-a {
+nav code, .example code {
+  background: transparent;
+  padding: 0;
+}
+section a {
   color: #369;
   border-bottom: 1px transparent solid;
   text-decoration: none;
   transition: 0.5s;
 }
-a:hover, a:focus {
+section a:hover, section a:focus {
   color: #036;
   border-bottom: 1px #369 solid;
 }
@@ -67,10 +83,8 @@ h1 span {
   opacity: 0;
   top: -2em;
 }
-.caveat {
-  background: url(../img/sadpanda.png) no-repeat 10px 5px;
-  padding-left: 90px;
-  min-height: 75px;
+h2,h3,h4 {
+  font-family: Rockwell, helvetica, arial, sans-serif;
 }
 h2 {
   background: #999;
@@ -82,9 +96,30 @@ h2 {
   border-radius: 10px;
 }
 h3 {
+  margin-bottom: .2em;
   font-size: 30px;
-  letter-spacing: -1px;  
   font-weight: normal;
+}
+h4 {
+  margin-bottom: .2em;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+dl {
+  font-size: 18px;
+}
+dt {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+dd {
+  margin: 0 0 .5em 0;
+}
+.caveat {
+  background: url(../img/sadpanda.png) no-repeat 10px 5px;
+  padding-left: 90px;
+  min-height: 75px;
 }
 p img {
   display: block;
@@ -105,5 +140,80 @@ a.example:hover {
   background: #69c;
 }
 
+footer {
+  display: block;
+  padding: 2em 1em;
+  background: #111;
+}
+footer p {
+  color: #ccc;
+  font-size: 14px;
+}
+footer p span {
+  color: #666;
+  float: right;
+  font-size: 14px;
+}
+nav {
+  display: block;
+  background: #333;
+  padding: 5px 0;
+}
+nav ul, nav li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+nav .hidden {
+  display: none;
+}
+nav ul {
+  margin: 0 1em .5em 1em;
+  clear: both;
+}
+nav ul ul {
+  margin: .5em 0 .5em .5em;
+}
+nav li a:link {
+  color: #fff;
+}
+nav a {
+  color: #69c;
+  text-decoration: none;
+  transition: 0.5s;
+}
+nav a:hover, nav a:focus {
+  color: #fff;
+}
+#toc:before {
+  display: block;
+  position: absolute;
+  right: 2em;
+  content: '▶';
+  transform: rotate(0);
+  transition: 0.5s;
+}
+#toc {
+  position: relative;
+  display: block;
+}
+#toc.open:before {
+  transform: rotate(90deg);
+}
 
+@media screen and (min-width:1070px) {
+  nav {
+    display: block;
+    float: right;
+    width: 300px;
+    margin-top: -120px;
+    min-height: 110px;
+  }
+  section {
+    margin-right: 310px;
+  }
+  header {
+    margin-right: 300px;
+  }
+}
 

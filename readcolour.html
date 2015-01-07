@@ -9,7 +9,7 @@
 </head>
 <body>
   <h1>Move mouse over image</h1>
-  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABWUlEQVRoge2YuxGEMAwFGaqhAUIKoQJCYhqgCJr1RVygQVhPlo01o0CB59Air99xn2EcxxSlr+HrAbxXCAyBIdB1QQLn6UjzdKR9OdO+nOna1nRt6399v64dxopP+7mymFskUDoQHUw6hDVfyuEKEfoqEN0YutFa/FKBdxULtBLSmo8KuROnSeKjQFQEKqZXvqbvUWBJpCX9vfI1SayaQMrxxpc8Wl4TyA1Y+lbwzocTiH4tQRPSK79YIDcIXUuvy/G1CanNN0sgV7nrrBNSm488AlQJpD+5pGK9JhD+EOGEWCfEKz8rkEuYdIBcf+985AAigZHA9nxxAikIPUGu3wtfLZDeGP3DMdfvnS8WqD3BXH+vfE6cOoG0tBvkEtKaj5Y6gdyJSDco7W/NtxQXCQSuhwVyYG1CuP5WfHSNzPOaQG4t3Zh2XZtfen9xAqNCYAjsvUJgCPy2fhYD28suIXWoAAAAAElFTkSuQmCC" alt="canvas">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAAAyCAYAAAAtKFX9AAACo0lEQVR4nO2awW3DMAxFg6yWJTKEDx0i1yyQcyfoKFkoPRlIFRCU9ElZdl+Ad3CD1p8UX8sYPZ3P5xcA9HHaOgDAnkEgAAEEAhBAIAABBAIQQCAAAQQCEEAgAAEEAhBoFujr++cPj+ft9XjePq5X1pd1XXtf9T7lq7e+1rzWq/fAsvuc1Y9orvfL63q/hM1D7/kgEAIh0EiByuBRInkHEnUfr0FefbV98g6s9ucsy/JalmVYn7P6EUV0PxAIgRBoTwKtQa3G1n5/1AFbjes9YLW+lV6By0Gxcqxf9+6v9jmqH1HizCY0AiEQAo0UyCqgtaHen9bWQbVE2mt9R8uh4uUYnWcFgSat72g5VA4jUPSKY60arXkskfZa39FyROGtcN5qGw0CTVrf0XJEsXuBygLK69aBV1c4q5G9B+zV5x3Q+r5an9rnrIHdKoeXyyL74QICNdaHQAj0TrdAXmO9gqIGPqtx0fW15lH7HD2orb9IrHNSV/ZeodQ5QyAEQqAZBYoatN4CsgdJra9XZLXPWQL1rnBRK7sqVLRICIRACDRSoPJfKkqiG6E2Krq+9f3aPOXg1B7cLH2OypG9wtXeN1okBGqsD4EQ6J1qgcpGWo0ddbC1K81W9XkPE6x8o3NYA3y0HFkiIRACIdBIgbyCRgvkibRVfd6BWSsmObbN0To3CPTPB4YcgwWyCvA+XGcLZIm0VX3WQw11ZSHHNjkQCIHIMYNAs6xw1odJVrixOWoHeO/9QCAEQqCZBLLIFsZrpPUwoWxUdn3WfaNyqPV7OWrzZOeYrR8IhEAINKNA2Suc1yjvYULZuOz6ag8samBb6+99bDs6x+z9QCAEQqARAgHAJwgEIIBAAAIIBCCAQAACCAQggEAAAggEIIBAAAIIBCDwC05RPoUNCVl6AAAAAElFTkSuQmCC" alt="canvas">
   <canvas class="zoom"></canvas>
   <div></div>
   <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
@@ -23,16 +23,16 @@
     canvas.width = sourceimage.width;
     context.drawImage(sourceimage, 0, 0);
     sourceimage.style.display = 'none';
-    function readcolour(ev) {
+    function pixcol(ev) {
       var x = ev.layerX;
       var y = ev.layerY;
       var pixeldata = context.getImageData(x, y, 1, 1);
       var col = pixeldata.data;
       swab.style.background = 'rgba(' +
-        col[0] + ',' + col[1] + ',' + col[2] + ',' + col[3] +
-      ')';
+        col[0] + ',' + col[1] + ',' +
+        col[2] + ',' + col[3] + ')';
     }
-    canvas.addEventListener('mousemove', readcolour, false);
+    canvas.addEventListener('mousemove', pixcol, false);
   },false);
 </script>
 <script src="js/scriptshower.js"></script>

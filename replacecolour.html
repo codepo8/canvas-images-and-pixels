@@ -6,6 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/demostyles.css">
+  <style type="text/css">
+  div {
+    right: 220px;
+    height: 50px;
+  }
+  </style>
 </head>
 <body>
   <h1>Move mouse over image, click to replace colour with red</h1>
@@ -29,13 +35,14 @@
       var pixeldata = context.getImageData(x, y, 1, 1);
       return pixeldata.data;
     }
-    function readcolour(ev) {
+    function readcol(ev) {
       var col = getpixelcolour(ev);
       swab.style.background = 'rgba(' +
-        col[0] + ',' + col[1] + ',' + col[2] + ',' + col[3] +
+        col[0] + ',' + col[1] + ',' +
+         col[2] + ',' + col[3] +
       ')';
     }
-    function replacecolour(ev) {
+    function replacecol(ev) {
       var col = getpixelcolour(ev);
       var pixels = context.getImageData(
         0, 0, canvas.width, canvas.height
@@ -53,8 +60,8 @@
       }
       context.putImageData(pixels, 0, 0);
     }
-    canvas.addEventListener('mousemove', readcolour, false);
-    canvas.addEventListener('click', replacecolour, false);
+    canvas.addEventListener('mousemove', readcol, false);
+    canvas.addEventListener('click', replacecol, false);
   },false);
 </script>
 <script src="js/scriptshower.js"></script>

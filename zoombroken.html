@@ -26,7 +26,7 @@
     zoomcanvas.width = sourceimage.width;
     context.drawImage(sourceimage, 0, 0);
     sourceimage.style.display = 'none';
-    function readpixels(ev) {
+    function zoom(ev) {
       var x = ev.layerX;
       var y = ev.layerY;
       zoomcontext.drawImage(
@@ -34,7 +34,7 @@
         0, 0, 200, 200
       );
     }
-    canvas.addEventListener('mousemove', readpixels, false);
+    canvas.addEventListener('mousemove', zoom, false);
   },false);
 </script>
 <script src="js/scriptshower.js"></script>

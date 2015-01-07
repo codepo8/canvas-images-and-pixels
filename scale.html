@@ -25,7 +25,7 @@
     var imgheight = sourceimage.offsetHeight;
     canvas.width = imgwidth * scalex;
     canvas.height = imgheight * scaley;
-    context.scale(scalex, scaley)
+    context.scale(scalex, scaley);//!#
     context.drawImage(sourceimage, 0, 0);
   }
   var button = document.querySelector('button');
