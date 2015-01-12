@@ -301,9 +301,9 @@ var font = {
   </article>  
   <article>
     <h3 id="generate-dataset">Generating the font dataset</h3>
-    <p>When I got more and more fonts, it got a bit tiring and time consuming to create the font dataset by hand in photoshop (and it was error prone). That's why I thought of a way to generate the dataset from the image. This wasn't hard. As the pixel fonts I use hava fixed amount of colours (<a href="http://www.pepto.de/projects/colorvic/">16 to be exact</a>) all I had to do is use a a colour that isn't used to separate the letters. Much like a green screen works in the movies.</p>
+    <p>When I got more and more fonts, it got a bit tiring and time consuming to create the font dataset by hand in photoshop (and it was error prone). That's why I thought of a way to generate the dataset from the image. This wasn't hard. As the pixel fonts I use have a fixed amount of colours (<a href="http://www.pepto.de/projects/colorvic/">16 to be exact</a>) all I had to do is use a colour that isn't used to separate the letters. Much like a green screen works in the movies.</p>
     <p>In the case of the font used here, this looks like this: <img src="img/greenaz.png" alt="Font with green separator lines"></p>
-    <p>You can also see this in the live canvas image of the logo generator at the newer fonts on the bottom: <a href="https://codepo8.github.io/logo-o-matic/img/canvas.png">4000&times;4000 pixel PNG, ~450MB</a>.</p>
+    <p>You can also see this in the live canvas image of the logo generator at the newer fonts on the bottom: <a href="https://codepo8.github.io/logo-o-matic/img/canvas.png">4000&times;4000 pixel PNG, ~450KB</a>.</p>
     <p>All I have to do then is to read the pixel array of one line of the the image and loop through it, pixel by pixel:</p>
     <ol>
       <li>If the current pixel is not green, I increase the <code>letterwidth</code> value.</li>
