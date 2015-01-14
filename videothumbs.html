@@ -22,8 +22,8 @@
     var dummyvid = document.createElement('video');
     dummyvid.src = video.src + '#t=' + (video.duration - 1);
     var context = canvas.getContext('2d');
-    var width = video.clientWidth;
-    var height = video.clientHeight;
+    var width = video.videoWidth;
+    var height = video.videoHeight;
     canvas.height = height;
     canvas.width = width;
     dummyvid.addEventListener('canplay',function(){
