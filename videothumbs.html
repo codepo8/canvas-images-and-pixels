@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyse colours - Canvas, images and pixels</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/demostyles.css">
+  <style type="text/css">
+  video,canvas {background: green;display: block;position: static;}
+  </style>
+</head>
+<body>
+  <video src="video/alicecat.webm?X=3" poster="" controls></video>
+  <canvas></canvas>
+  <ol class="colours"></ol>
+  <p>This is part of the <a href="index.html">Canvas, images and pixels</a> tutorial</p>
+<script>
+  window.addEventListener('load', function(ev) {
+    var video = document.querySelector('video');
+    var canvas = document.querySelector('canvas');
+    var dummyvid = document.createElement('video');
+    dummyvid.src = video.src + '#t=' + (video.duration - 1);
+    var context = canvas.getContext('2d');
+    var width = video.clientWidth;
+    var height = video.clientHeight;
+    canvas.height = height;
+    canvas.width = width;
+    dummyvid.addEventListener('canplay',function(){
+      context.drawImage(dummyvid,0,0);
+      video.setAttribute('poster',canvas.toDataURL());
+      dummyvid.remove();
+      canvas.remove();
+    });
+  },false);
+</script>
+<script src="js/scriptshower.js"></script>
+</body>
+</html> 

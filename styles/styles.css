@@ -190,16 +190,16 @@ nav a:hover, nav a:focus {
   position: absolute;
   right: 2em;
   content: '▶';
-  -webkit-transform: rotate(0deg);
   transition: 0.5s;
+  -webkit-transform: rotate(0deg);
 }
 #toc {
   position: relative;
   display: block;
 }
 #toc.open:before {
-  transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 footer a {
   color: #fff;
